@@ -2,9 +2,17 @@
 errors listed below, and try again.
 
 
-File "game/script.rpy", line 59: expected ':' not found.
-    label forest_go_to_village
-                              ^
+File "game/script.rpy", line 108: choice menuitem expects a non-empty block.
+    "yes, do you by chance have any information that could help me find them?":
+                                                                               ^
+
+File "game/script.rpy", line 114: Line is followed by a block, despite not being a menu choice. Did you forget a colon at the end of the line?
+    "Yes that should help me out a lot thank you!"
+                                                  ^
+
+File "game/script.rpy", line 123: choice menuitem expects a non-empty block.
+    "I am looking for some equipment, I have offered to go after the thieves and get your vilages gold back.":
+                                                                                                              ^
 
 Ren'Py Version: Ren'Py 8.0.3.22090809
-Fri Feb 24 21:21:17 2023
+Sat Feb 25 00:23:43 2023
