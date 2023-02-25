@@ -2,17 +2,17 @@
 errors listed below, and try again.
 
 
-File "game/script.rpy", line 108: choice menuitem expects a non-empty block.
-    "yes, do you by chance have any information that could help me find them?":
-                                                                               ^
+File "game/script.rpy", line 165: end of line expected.
+    narrator "Here are the three missing bags of gold! Now that we have found them we can bring them back to the village, the villagers will be so excited!":
+                                                                                                                                                            ^
 
-File "game/script.rpy", line 114: Line is followed by a block, despite not being a menu choice. Did you forget a colon at the end of the line?
-    "Yes that should help me out a lot thank you!"
-                                                  ^
+File "game/script.rpy", line 174: end of line expected.
+    narrator "With their gold back, the village was able to hire help in watching their finances and continue supporting themselves. With more time the area was able to prosper due to a variety of factors including the lack of thefts that occured near the village since then and others moving to the area.":
+                                                                                                                                                                                                                                                                                                                  ^
 
-File "game/script.rpy", line 123: choice menuitem expects a non-empty block.
-    "I am looking for some equipment, I have offered to go after the thieves and get your vilages gold back.":
-                                                                                                              ^
+File "game/script.rpy", line 175: end of line expected.
+    narrator "The end.":
+                       ^
 
 Ren'Py Version: Ren'Py 8.0.3.22090809
-Sat Feb 25 00:23:43 2023
+Sat Feb 25 21:07:30 2023
