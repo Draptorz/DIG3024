@@ -1,26 +1,22 @@
 ﻿I'm sorry, but an uncaught exception occurred.
 
 While running game code:
-  File "game/script.rpy", line 160, in script
-    $ ignored = true
-  File "game/script.rpy", line 160, in <module>
-    $ ignored = true
-NameError: name 'true' is not defined
+  File "game/script.rpy", line 213, in script
+    theif "Oh ho think we can escape do we? You are not going anywhere."
+Exception: Sayer 'theif' is not defined.
 
 -- Full Traceback ------------------------------------------------------------
 
 Full traceback:
-  File "game/script.rpy", line 160, in script
-    $ ignored = true
-  File "C:\Users\drapt\Downloads\renpy-8.0.3-sdk\renpy\ast.py", line 1131, in execute
-    renpy.python.py_exec_bytecode(self.code.bytecode, self.hide, store=self.store)
-  File "C:\Users\drapt\Downloads\renpy-8.0.3-sdk\renpy\python.py", line 1061, in py_exec_bytecode
-    exec(bytecode, globals, locals)
-  File "game/script.rpy", line 160, in <module>
-    $ ignored = true
-NameError: name 'true' is not defined
+  File "game/script.rpy", line 213, in script
+    theif "Oh ho think we can escape do we? You are not going anywhere."
+  File "C:\Users\drapt\Downloads\renpy-8.0.3-sdk\renpy\ast.py", line 881, in execute
+    who = eval_who(self.who, self.who_fast)
+  File "C:\Users\drapt\Downloads\renpy-8.0.3-sdk\renpy\ast.py", line 774, in eval_who
+    raise Exception("Sayer '%s' is not defined." % who)
+Exception: Sayer 'theif' is not defined.
 
 Windows-10-10.0.19045 AMD64
 Ren'Py 8.0.3.22090809
 Visual Novel Project 1.0
-Sat Feb 25 21:16:26 2023
+Sat Feb 25 22:32:41 2023

@@ -14,7 +14,7 @@ define thief = Character("Thief")
 label start:
   # Define initial variables
   $ has_dragon = False
-  $ stole_gold = False
+  $ took_gold = False
   $ talked_to_girl = False
   $ talked_to_blacksmith = False
   
@@ -72,7 +72,8 @@ label first_cave_appearance:
     "We should leave the bags alone and get out of here!":
       jump leave_first_cave
     "This gold belongs to someone and that someone is me now!":
-      jump leave_first_cave_with_gold
+      $ took_gold = True
+      jump leave_first_cave
   return
   
 label leave_first_cave:
@@ -87,10 +88,16 @@ label first_go_to_village:
   if has_dragon:
     villager "Also, nice dragon!"
   
+  if took_gold:
+    menu:
+      "Oh, I actually just found all this gold in a cave! Is this yours?":
+        jump return_gold
+      "Sorry, I can't help you.":
+        jump disagree
   menu:
-    "Agree to help retrieve the gold":
+    "Oh my, I'll do whatever I can to help!":
       jump agree
-    "Tell them sorry you are not able to help":
+    "Sorry, I can't help you.":
       jump disagree
   return
   
@@ -181,73 +188,82 @@ label village_return_from_mountain:
   narrator "With their gold back, the village was able to hire help in watching their finances and continue supporting themselves. With more time the area was able to prosper due to a variety of factors including the lack of thefts that occured near the village since then and others moving to the area."
   narrator "After helping the villagers get their gold back, you feel very accomplished with the good deed. Throughout the rest of your travels, whenever someone else asks for help you go and try to aid them if you can."
   narrator "The end."
+  return
   
 label disagree:
   villager "Oh ok, sorry for bothering you about our dilema. I was careless in asking someone just passing through, please accept my appologies! If you need anything just let us know."
-    menu:
-      "I am all set but thank you for the offer, I will be on my way.":
+  menu:
+    "I am all set but thank you for the offer, I will be on my way.":
       $ ignore = True
-    jump disagree_left_village
+  jump disagree_left_village
   return
 
-label disagree_left_village
-  thief "Not too smart to be out here on your own buddy, your items are mine now!"
-  #gets knocked out and taken to the cave
-  scene black
-  if has_dragon:
-  jump disagree_cave
+label disagree_left_village:
+  if took_gold:
+    thief "Hey! What do you think you're doing?!"
+    thief "That's my bags of gold! I stole them myself!"
+    thief "Prepare to die!"
+    scene black
+    narrator "You died. Game over."
   else:
-  jump disagree_cave_end
+    thief "Not too smart to be out here on your own buddy, your items are mine now!"
+    #gets knocked out and taken to the cave
+    scene black
+    if has_dragon:
+      jump disagree_cave
+    else:
+      jump disagree_cave_end
   return
   
-label disagree_cave_end  
+label disagree_cave_end:  
   scene black
   narrator "You slowly come to in a new location tied up."
   scene cave
   menu:
-    "Huh? Where am I? This appears to be a cave of some sorts, I need to escape before that theif comes back!":
-    $ ignore = True
+    "Huh? Where am I? This appears to be a cave of some sorts, I need to escape before that thief comes back!":
+      $ ignore = True
   "struggles but to no avail are you able to break out of the restraints"
-  show theif
-  theif "Oh ho think we can escape do we? You are not going anywhere."
+  show thief
+  thief "Oh ho think we can escape do we? You are not going anywhere."
   scene black
   narrator "Game over"
   return 
   
   
-label disagree_cave
+label disagree_cave:
   scene black
   narrator "You slowly come to in a new location tied up with your dragon friend next to you."
   menu:
     "Huh? Where am I? Dragon are you ok? This looks like a cave we have been taken to, we need to get out of here before that guy comes back!":
-    $ ignore = True
+      $ ignore = True
   "after a moment of struggling your dragon comes over and bites through the ropes, allowing you both to escape"
   menu: 
     "Thanks buddy! Hey what's over there? Those look likes bags of something... Oh! Those must be the bags of gold that were stolen from the village! With them being just right here, what should I do with them?":
+       $ ignore = True
   menu:
-    "Take the bags of gold and keep them, the theif deserves to lose them after daring kidnap you and your friend!":
+    "Take the bags of gold and keep them, the thief deserves to lose them after daring kidnap you and your friend!":
       jump disagree_steal_gold
-    "Leave them! That theif could be back any moment and then you both will be done for!":
+    "Leave them! That thief could be back any moment and then you both will be done for!":
       jump disagree_leave_gold
-    "Since they are right here, might as well help the villagers and bring the bags back to them. The theif should learn better than hiding people and treasure together.":
+    "Since they are right here, might as well help the villagers and bring the bags back to them. The thief should learn better than hiding people and treasure together.":
       jump disagree_change_heart
   return
   
-label disagree_steal_gold
+label disagree_steal_gold:
   scene black
-  narrator "After taking the gold and escaping from the cave, the village is never able to recover the stolen gold. With the gold lost, they struggle to keep the village running and suffer for many years because of having to rebuild from nothing.
+  narrator "After taking the gold and escaping from the cave, the village is never able to recover the stolen gold. With the gold lost, they struggle to keep the village running and suffer for many years because of having to rebuild from nothing."
   narrator "Since you and your dragon now have quite some wealth to your names, you are able to travel and live without worries, but always have to keep watch because many others have tried to take that wealth from you."
   narrator "The end."
   return
   
-label disagree_leave_gold
+label disagree_leave_gold:
   scene black
   narrator "After you both escape with your lives leaving the gold behind you, another Adventurer comes along and is successful in recovering the villages stolen gold. The village did struggle for some time while being without the funds for many daily needs, but with the returned gold they could pick themselves up quickly and began to prosper with time."
   narrator "You and your dragon friend go off and explore many new areas together just glad you both have each other."
   narrator "The end."
   return
   
-label disagree_change_heart
+label disagree_change_heart:
   scene village
   narrator "After you both emerge safely from the cave with the stolen gold, you return to the village to give it back to its rightful owners."
   villager "Adventurer? What are you doing back here? I thought you said you were just passing through and had already left this place!"
@@ -260,6 +276,17 @@ label disagree_change_heart
       $ ignore = True
   villager "Oh we will we can promise you that! Once again, thank you both."
   scene black
-  narrator "After recieving their gold back, the village was able to hire help in watching their finances and continue supporting themselves. The theif was scared off by those hired to protect the place, and the village along with the surrounding area grew more populous and prospered."
+  narrator "After recieving their gold back, the village was able to hire help in watching their finances and continue supporting themselves. The thief was scared off by those hired to protect the place, and the village along with the surrounding area grew more populous and prospered."
   narrator "Once leaving the village and having gone through the change of heart, you and your dragon friend continued to help out whenever asked throughout the rest of your journey."
   narrator "The end."
+  return
+  
+label return_gold:
+  scene village
+  villager "Oh my! Yes, that is our gold! Thank you so much!"
+  menu:
+    "Here you go!":
+      $ ignored = True
+  villager "Thank you again so much!"
+  narrator "Everyone lived happily ever after. The end."
+  return
