@@ -9,6 +9,7 @@ define villager = Character("Villager")
 define village_girl = Character("Village girl")
 define blacksmith = Character("Blacksmith")
 define thief = Character("Thief")
+define dragon = Character("Dragon")
 
 
 label start:
@@ -19,39 +20,48 @@ label start:
   $ talked_to_blacksmith = False
   
   scene forest
-  narrator "While on your way to the next village on your journey through the mountains, you encounter something quite strange."
+  narrator "You are hiking around mountains, on your way to the next adventure."
   scene forest dragon
-  narrator "What's that? A dragon?!"
+  menu:
+    "Oh no, is that a dragon?!":
+      $ ignored = True
   
   menu:
-    "Fight it":
+    "I'll fight it, show it who's boss!":
       jump forest_fight_dragon
-    "Befriend it":
+    "Maybe if I feed him my leftovers from lunch, he'll become my friend...":
       jump forest_befriend_dragon
-    "Go the other way":
+    "It's probably best if I just go back the other way...":
       jump first_go_to_village
   return
 
 label forest_fight_dragon:
+  # TODO Include fight scene with dragon
+  dragon "{i}dragon noises{/i}"
   scene black
-  narrator "You're fighting the dragon"
-  narrator "You lose the fight. Game Over."
+  narrator "Unsurprisingly, an unarmed human was no match for a fierce dragon."
+  narrator "Better luck next time, adventurer."
   return
   
 label forest_befriend_dragon:
-  narrator "You're befriending the dragon"
+  # TODO show food in front of dragon
+  dragon "{i}intrigued dragon noises{/i}"
   scene forest
   show dragon
   $ has_dragon = True
-  narrator "You now have a new friend! Where shall you both start adventuring to together?"
+  dragon "{i}happy dragon noises{/i}"
   
   menu:
-    "Head deeper into the forest":
+    "Hey, that worked! I guess I have a new friend now.":
+      $ ignored = True
+  
+  menu:
+    "Let's continue further towards the mountains!":
       show dragon-small onlayer screens:
         xalign 0.0
         yalign 1.0
       jump mountainside_trail
-    "Go the other way":
+    "Let's turn around and go the other way anyway.":
       show dragon-small onlayer screens:
         xalign 0.0
         yalign 1.0
@@ -60,23 +70,31 @@ label forest_befriend_dragon:
   
 label mountainside_trail:
   scene mountainside
-  narrator "as you both explore the scenery, you stumble upon a cave entrance that your new dragon friend seems curious about. What should you both do?"
+  menu:
+    "The mountains sure are pretty! Let's continue.":
+      $ ignored = True
+
   scene cave entrance
   menu:
-    "Follow the dragon into the cave.":
+    "Huh, I didn't know there was a cave hiding here.":
+      $ ignored = True
+
+  menu:
+    "Let's go explore it!":
       jump first_cave_appearance
-    "Tell the dragon not now and continue down the path":
+    "It's probably best if we just continue.":
       jump first_go_to_village
   return
   
 label first_cave_appearance:
   scene cave gold
-  narrator "There's some hidden bags of gold in here! They do not appear to belong to anyone, but it might not be a wise decision to just take them either."
+  narrator "You find some bags of gold in the cave."
+  narrator "They do not appear to belong to anyone, but it might not be a wise decision to just take them either."
 
   menu:
     "We should leave the bags alone and get out of here!":
       jump leave_first_cave
-    "This gold belongs to someone and that someone is me now!":
+    "Finders keepers! This is my gold now!":
       $ took_gold = True
       scene cave
       show gold onlayer screens:
@@ -89,7 +107,7 @@ label first_cave_appearance:
   
 label leave_first_cave:
   scene mountainside
-  narrator "after leaving the cave, you and the dragon decide to continue heading down the trail."
+  narrator "The trail leads you further away from the cave, towards the village."
   jump first_go_to_village
 
 label first_go_to_village:
@@ -97,9 +115,11 @@ label first_go_to_village:
   narrator "You've arrived at the village."
   scene village villager
   show villager
-  villager "Oh adventurer! Can you please help us? Thieves raided our village earlier and have taken most of the villages gold! We will not be able to continue our way of life without our incomes or savings and really need your help in recovering the gold!"
+  villager "Oh adventurer! Can you please help us?"
+  villager "Thieves raided our village earlier and have taken most of the village's gold!"
+  villager "We will not be able to continue our way of life without our incomes or savings and really need your help in recovering the gold!"
   if has_dragon:
-    villager "Also, nice dragon!"
+    villager "I'm sure this dragon of yours could help you retrieve the gold!"
   
   if took_gold:
     menu:
@@ -115,7 +135,8 @@ label first_go_to_village:
   return
   
 label agree:
-  villager "We really appreciate you willing to aid us in this time of need. We will be willing to provide you with whatever you need to take on those awful thieves!"
+  villager "We really appreciate you willing to aid us in this time of need."
+  villager "We will be willing to provide you with whatever you need to take on those awful thieves!"
   jump ask_around_village
   
 label ask_around_village:
@@ -124,26 +145,30 @@ label ask_around_village:
     jump talked_to_everyone
 
   menu:
-    "Let's go talk to the girl over there and see if she has any information for us." if not talked_to_girl:
+    "Let's go talk to the girl over there." if not talked_to_girl:
         jump village_girl_chat
-    "Let's see if we can get anything to aid us should we have to fight the thieves at the blacksmith." if not talked_to_blacksmith:
+    "Let's see if the blacksmith can help us." if not talked_to_blacksmith:
       jump blacksmith_chat
   return
   
 label village_girl_chat:
   scene village girl
   show girl
-  village_girl "Hiya Adventurer! Are you here to help us get our gold back from the mean thieves?"
+  village_girl "Hiya Adventurer!"
+  village_girl "Are you here to help us get our gold back from the mean thieves?"
       
   menu: 
-    "yes, do you by chance have any information that could help me find them?":
+    "Yes! Do you have any more information about them?":
       # this is the only option so we'll just continue here, but it wants to have something in here, so let's just set a variable
       $ ignored = True
     
-  village_girl "Absolutely! While out in the forest I've spotted them sneaking around by the mountains mutliple times! I am however way too young to be going after them so I am not sure exactly why they are always over in that area. Hope I could help though!"
+  village_girl "Absolutely!"
+  village_girl "While out in the forest I've spotted them sneaking around by the mountains mutliple times!"
+  village_girl "I'm just too scared to go after them so I don't know what they're doing there."
+  village_girl "I hope this helps though!"
       
   menu:
-    "Yes that should help me out a lot thank you!":
+    "That's very helpful, thanks!":
       $ ignored = True
   
   $ talked_to_girl = True
@@ -155,77 +180,106 @@ label blacksmith_chat:
   blacksmith "Why hello there Adventurer, what brings you here?"
   
   menu: 
-    "I am looking for some equipment, I have offered to go after the thieves and get your vilages gold back.":
+    "I'm looking for some equipment to get your gold back from the thieves.":
       $ ignored = True
-  blacksmith "Oh really? That is wonderful news! Thank you so much for your assistance! I have a spare sword and some armor I would be happy to extend to you to help keep you safe from those awful thieves."
+  blacksmith "Oh really? That is wonderful news! Thank you so much for your assistance!"
+  blacksmith "I have a spare sword and some armor I would be happy to lend you."
   menu:
-    "The armor and sword would be very much appreciated! I shall return soon with the gold!":
+    "That would be very helpful, thank you!":
       $ ignored = True
   
   $ talked_to_blacksmith = True
   jump ask_around_village
   
 label talked_to_everyone:
-  narrator "Now that we are all geared up let's head over to the mountainside and find the missing gold!"
-  jump head_to_cave
+  menu:
+    "Now that we are all geared up, let's go find the gold!":
+      jump head_to_cave
   return
   
 label head_to_cave:
   scene mountainside
-  narrator "While on the path through the forest that sticks to the mountainside." 
-  show thief
-  thief "Hey you there! What do you think you are doing in these parts? This is our mountain!"
+  narrator "You continue towards the cave entrance."
+  scene cave entrance
+  show thief-angry
+  thief "Hey you there!"
+  thief "What do you think you are doing in these parts? This is my mountain!"
   menu:
-    "I am here looking for some fools that thought it was a good idea to steal from the nearby village, I guess assuming you are the culprits would be correct.":
+    "I'm here looking for gold that was stolen from the villagers!":
        $ ignored = True
+  thief "Well well well, you tried to retrieve some stolen items..."
+  hide thief-angry
+  show thief
   if has_dragon:
-    thief "Hey who you calling a fool? Hand over your goods and your dragon, they belong to us now!"
+    thief "only for your items and your little pet to end up stolen as well!"
   else:
-    thief "Hey who you calling a fool? Hand over your goods, they belong to us now!"
-    # TODO Raise sword and shield
-    menu:
-      "Over my dead body!":
-        $ignored = True
-    
+    thief "only for your items to end up stolen as well!"
   menu:
-    "Now that they are gone, let us see what is hidden within this cave.":
-      $ ignored = True
+    "Over my dead body!":
+      $ignored = True
+  
+  scene black
+  pause(3)
+  scene cave entrance
+  show thief-injured
+  thief "Fine, fine, you win! Please don't hurt me any more!"
+  hide thief-injured
+  pause(2)
   jump cave_after_fight
 
 label cave_after_fight:
+  scene cave gold
+  narrator "You have found the missing bags of gold!"
   scene cave
-  narrator "Here are the three missing bags of gold! Now that we have found them we can bring them back to the village, the villagers will be so excited!"
+  show gold onlayer screens:
+    xalign 1.0
+    yalign 1.0
+  pause(3)
   jump village_return_from_mountain
   
 label village_return_from_mountain:
+  scene village
+  pause(2)
+  scene village villager
+  show villager
   villager "You have returned Adventurer! Where you able to find any of our missing gold?"
   menu:
-    "Yes here are the three missing bags of gold! Those pesky thieves should not bother you for some time but be more careful about the gold in the future.":
-      $ignored = True    
-  villager "Oh we will do not worry, we all have definitely learned from this lesson! Regardless, on behalf of the whole village, thank you so much for aiding us and recovering the gold."
-  narrator "With their gold back, the village was able to hire help in watching their finances and continue supporting themselves. With more time the area was able to prosper due to a variety of factors including the lack of thefts that occured near the village since then and others moving to the area."
-  narrator "After helping the villagers get their gold back, you feel very accomplished with the good deed. Throughout the rest of your travels, whenever someone else asks for help you go and try to aid them if you can."
-  narrator "The end."
+    "Yes, I did! Here you go!":
+      $ignored = True
+  hide gold onlayer screens
+  villager "Oh thank you so much, Adventurer!"
+  villager "On behalf of the whole village, thank you so much for getting our gold back!"
+  scene village
+  pause(2)
+  narrator "With their gold back, the village was able to continue their day to day life."
+  narrator "The thief was never seen near the village again."
+  narrator "After helping the villagers get their gold back, you feel very accomplished with the good deed."
+  narrator "Throughout the rest of your travels, whenever someone else asks for help you go and try to aid them if you can."
+  scene black
+  pause(5)
   return
   
 label disagree:
-  villager "Oh ok, sorry for bothering you about our dilema. I was careless in asking someone just passing through, please accept my appologies! If you need anything just let us know."
-  menu:
-    "I am all set but thank you for the offer, I will be on my way.":
-      $ ignore = True
+  villager "Oh that's perfectly understandable. Sorry to bother you!"
   jump disagree_left_village
   return
 
 label disagree_left_village:
   scene mountainside
+  pause(5)
   if took_gold:
+    show thief-angry
     thief "Hey! What do you think you're doing?!"
     thief "That's my bags of gold! I stole them myself!"
-    thief "Prepare to die!"
+    thief "You're going to pay for that!"
     scene black
-    narrator "You died. Game over."
+    narrator "Your adventure has come to an unfortunate end."
   else:
-    thief "Not too smart to be out here on your own buddy, your items are mine now!"
+    show thief
+    thief "Well well well, what do we have here?"
+    thief "An adventurer?"
+    thief "You probably shouldn't be here on your own, there are dangers lurking in the mountains..."
+    thief "Especially thieves like myself!"
     #gets knocked out and taken to the cave
     scene black
     if has_dragon:
@@ -236,71 +290,86 @@ label disagree_left_village:
   
 label disagree_cave_end:  
   scene black
-  narrator "You slowly come to in a new location tied up."
-  scene cave
+  pause(2)
+  narrator "You slowly wake up."
+  scene cave gold
   menu:
-    "Huh? Where am I? This appears to be a cave of some sorts, I need to escape before that thief comes back!":
+    "I better escape before the thief returns!":
       $ ignore = True
-  "" "{i}struggles but to no avail are you able to break out of the restraints{/i}"
+  "" "{i}You are unable to break free.{/i}"
   show thief
-  thief "Oh ho think we can escape do we? You are not going anywhere."
+  thief "Oh ho think we can escape do we?"
+  thief "You are not going anywhere!"
   scene black
-  narrator "Game over"
+  narrator "And so your adventure has unfortunately come to an end."
   return 
   
   
 label disagree_cave:
   scene black
-  narrator "You slowly come to in a new location tied up with your dragon friend next to you."
-  scene cave
+  narrator "You slowly wake up."
+  scene cave gold
   menu:
-    "Huh? Where am I? Dragon are you ok? This looks like a cave we have been taken to, we need to get out of here before that guy comes back!":
+    "We need to try to escape!":
       $ ignore = True
-  "after a moment of struggling your dragon comes over and bites through the ropes, allowing you both to escape"
+  "After a moment of struggling, your dragon comes over and bites through the ropes, allowing you both to escape."
   menu: 
-    "Thanks buddy! Hey what's over there? Those look likes bags of something... Oh! Those must be the bags of gold that were stolen from the village! With them being just right here, what should I do with them?":
+    "Those bags look like they contain the villagers' gold!":
        $ ignore = True
   menu:
-    "Take the bags of gold and keep them, the thief deserves to lose them after daring kidnap you and your friend!":
+    "I'll take them for myself, just to show the thief who's boss!":
       jump disagree_steal_gold
-    "Leave them! That thief could be back any moment and then you both will be done for!":
+    "We don't have time for that, we need to get out of here immediately!":
       jump disagree_leave_gold
-    "Since they are right here, might as well help the villagers and bring the bags back to them. The thief should learn better than hiding people and treasure together.":
+    "Let's take them to the village.":
       jump disagree_change_heart
   return
   
 label disagree_steal_gold:
   scene forest
-  narrator "After taking the gold and escaping from the cave, the village is never able to recover the stolen gold. With the gold lost, they struggle to keep the village running and suffer for many years because of having to rebuild from nothing."
-  narrator "Since you and your dragon now have quite some wealth to your names, you are able to travel and live without worries, but always have to keep watch because many others have tried to take that wealth from you."
-  narrator "The end."
+  show gold onlayer screens:
+    xalign 1.0
+    yalign 1.0
+  narrator "After taking the gold and escaping from the cave, the village is never able to recover the stolen gold."
+  narrator "Without their life savings, they struggle to keep the village running."
+  narrator "Since you and your dragon now have quite some wealth to your names, you are able to travel and live without worries..."
+  narrator "but you always have to keep watch because your wealth has made {b}you{/b} the target of many a thief."
   return
   
 label disagree_leave_gold:
   scene forest
-  narrator "After you both escape with your lives leaving the gold behind you, another Adventurer comes along and is successful in recovering the villages stolen gold. The village did struggle for some time while being without the funds for many daily needs, but with the returned gold they could pick themselves up quickly and began to prosper with time."
-  narrator "You and your dragon friend go off and explore many new areas together just glad you both have each other."
-  narrator "The end."
+  narrator "You and your dragon escaped without running into the thief."
+  narrator "Another Adventurer later came along and recovered the village's stolen gold."
+  narrator "The village was eventually able to fully recover and get back to normal."
+  narrator "You and your dragon friend go off and explore many new areas together, glad you have each other."
   return
   
 label disagree_change_heart:
+  show gold onlayer screens:
+    xalign 1.0
+    yalign 1.0
   scene village
-  narrator "After you both emerge safely from the cave with the stolen gold, you return to the village to give it back to its rightful owners."
+  pause(2)
   scene village villager
   show villager
-  villager "Adventurer? What are you doing back here? I thought you said you were just passing through and had already left this place!"
+  villager "Adventurer? What are you doing back here?"
+  villager "I thought you said you were just passing through and had already left this place!"
   menu:
-    "I had left, but got caught up with something and managed to find these. Is this by chance what your village has lost?":
+    "I was going to leave, but I think I stumbled upon your lost gold.":
        $ ignore = True
-  villager "The missing gold! I do not know how you found this, but you have no idea how much this means to all of us! Thank you so much for returning this to us!"
+  villager "The missing gold!"
+  hide gold onlayer screens
+  villager "I do not know how you found this, but you have no idea how much this means to all of us!"
+  villager "Thank you so much for returning this to us!"
   menu:
-    "It was no problem, I hope you all take better care at keeping this safe from now on though!":
+    "Oh don't mention it, it was no problem at all!":
       $ ignore = True
-  villager "Oh we will we can promise you that! Once again, thank you both."
   scene village
-  narrator "After recieving their gold back, the village was able to hire help in watching their finances and continue supporting themselves. The thief was scared off by those hired to protect the place, and the village along with the surrounding area grew more populous and prospered."
-  narrator "Once leaving the village and having gone through the change of heart, you and your dragon friend continued to help out whenever asked throughout the rest of your journey."
-  narrator "The end."
+  pause(2)
+  narrator "With their gold back, the village was able to continue their day to day life."
+  narrator "The thief was never seen near the village again."
+  narrator "After helping the villagers get their gold back, you feel very accomplished with the good deed."
+  narrator "Throughout the rest of your travels, whenever someone else asks for help you go and try to aid them if you can."
   return
   
 label return_gold:

@@ -2,13 +2,9 @@
 errors listed below, and try again.
 
 
-File "game/script.rpy", line 55: expected 'image_name_component' not found.
-    show "dragon small" onlayer screens:
-         ^
-
-File "game/script.rpy", line 60: expected 'image_name_component' not found.
-    show "dragon small" onlayer screens:
-         ^
+File "game/script.rpy", line 221: expected statement.
+    sleep 1
+           ^
 
 Ren'Py Version: Ren'Py 8.0.3.22090809
-Sun Feb 26 00:11:22 2023
+Sun Feb 26 01:02:59 2023

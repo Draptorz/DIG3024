@@ -30,6 +30,23 @@ define config.version = "1.0"
 ## triple-quotes, and leave a blank line between paragraphs.
 
 define gui.about = _p("""
+Made by Sabrina Greep for DIG3024 class at University of Central Florida.
+
+Image credits:
+
+Villagers: https://www.freepik.com/free-vector/farmer-collection_7872695.htm
+
+Dragon: https://www.freepik.com/free-vector/baby-dragons-with-cute-eyes_1624607.htm
+
+Gold: https://www.freepik.com/free-vector/indian-rupee-money-bag_3419642.htm
+
+Thief: https://www.freepik.com/free-vector/sticker-template-with-viking-warrior-cartoon-character-isolated_16449699.htm
+
+Village: https://www.pexels.com/photo/three-houses-near-chapel-below-valley-1101296/
+
+Cave entrance: https://www.pexels.com/photo/entrance-of-prohodna-cave-in-prohod-bulgaria-13199992/
+
+Other pictures are my own work.
 """)
 
 
