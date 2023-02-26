@@ -46,6 +46,8 @@ Village: https://www.pexels.com/photo/three-houses-near-chapel-below-valley-1101
 
 Cave entrance: https://www.pexels.com/photo/entrance-of-prohodna-cave-in-prohod-bulgaria-13199992/
 
+Meat: https://www.freepik.com/free-vector/raw-meat-sticker-white-background_18054733.htm
+
 Other pictures are my own work.
 """)
 

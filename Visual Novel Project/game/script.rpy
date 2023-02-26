@@ -36,7 +36,7 @@ label start:
   return
 
 label forest_fight_dragon:
-  # TODO Include fight scene with dragon
+  scene forest fight
   dragon "{i}dragon noises{/i}"
   scene black
   narrator "Unsurprisingly, an unarmed human was no match for a fierce dragon."
@@ -44,7 +44,7 @@ label forest_fight_dragon:
   return
   
 label forest_befriend_dragon:
-  # TODO show food in front of dragon
+  scene forest food
   dragon "{i}intrigued dragon noises{/i}"
   scene forest
   show dragon
